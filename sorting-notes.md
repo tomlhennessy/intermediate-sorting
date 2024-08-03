@@ -95,7 +95,7 @@ function merge(arrA, arrB) {
         i++;
     }
 
-    // add any remeaining elements from arrB
+    // add any remaining elements from arrB
     while (j < arrB.length) {
         result.push(arrB[j]);
         j++;
@@ -111,3 +111,73 @@ function merge(arrA, arrB) {
     • It has a time complexity of O(n log n)
     • Space complexity is O(n log n) due to the additional arrays created during the merge process
     • An in-place merge sort can reduce space complexity but is more complex to implement
+
+
+# Quicksort
+
+* Overview
+Quicksort is an efficient, recursive divide-and-conquer sorting algorithm. It typically performs better than other O(n log n) algorithms like merge sort due to better cache performance and low overhead.
+
+* Algorithm Steps
+    1. Choose a Pivot: select a value from the array to serve as the pivot. This can be any value but is often the first element
+    2. Partition: rearrange the array so that all elements less than the pivot come before it, and all elements greater than the pivot come after it
+    3. Recursively Sort Partitions: apply the same process to the left and right partitions
+    4. Combine: return the array by combining the sorted left partition, pivot, and sorted right partition
+
+* Example
+
+Sort the array [5, 4, 10, 1, 8, 3, 6]:
+
+    1. Choose Pivot: 5
+    2. Partition:
+        • Left: [4, 1, 3]
+        • Right: [10, 8, 6]
+
+    3. Recursively Sort Partitions:
+        • Left Sorted: [1, 3, 4]
+        • Right Sorted: [6, 8, 10]
+
+    4. Combine:
+        • [1, 3, 4] + 5 + [6, 8, 10] -> [1, 3, 4, 5, 6, 8, 10]
+
+* Recursive Sorting
+Quicksort recursively sorts subarrays, reducing their size each time until reaching arrays of length 1 or 0, which are inherently sorted
+
+* Time Complexity
+    • Average Case: O(n log n) due to efficient partitioning
+    • Worst Case: O(n^2) when pivot selection leads to highly unbalanced partitions, e.g. sorting an already sorted array with the first element as pivot
+
+* Space Complexity
+    • Out-of-place: O(n log n) due to creating new arrays for partitions
+    • In-Place: O(1) if implemented without additional arrays, modifying the input array directly
+
+Pseudocode
+```js
+function quicksort(arr) {
+    // base case: arrays of length 1 or less are already sorted
+    if (arr.length <= 1) return arr;
+
+    // pick a pivot
+    let pivot = arr[0]
+    let left = [], right = [];
+
+    // partition array into left and right
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] < pivot) left.push(arr[i]);
+    } else right.push(arr[i]);
+
+    // recursively sort partitions and combine with pivot
+    return [...quicksort(left), pivot, ...quicksort(right)];
+}
+```
+
+* In-Place Quicksort
+To improve space efficiency, in-place quicksort modifies the input array without additional arrays. It uses a pointer technique to swap elements, ensuring all smaller elements are on one side of the pivot and all larger elements on the other
+
+* Key Takeaways
+    • Divide and Conquer: quicksort splits the array around a pivot and recursively sorts subarrays
+    • Recursive Approach: achieves efficient sorting by reducing problem size of each call
+    • Performance: average time complexity is O(n log n); worst-case is O(n^2), which can be mitigated with good pivot selection strategies
+    • Space Complexity: Out-of-place O(n log n), in-place O(1)
+
+Understanding quicksort's mechanism and implementing it both out-of-place and in-place enhances problem-solving skills in sorting and algorithm optimisation.
