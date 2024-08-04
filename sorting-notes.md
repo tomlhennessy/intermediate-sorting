@@ -181,3 +181,102 @@ To improve space efficiency, in-place quicksort modifies the input array without
     • Space Complexity: Out-of-place O(n log n), in-place O(1)
 
 Understanding quicksort's mechanism and implementing it both out-of-place and in-place enhances problem-solving skills in sorting and algorithm optimisation.
+
+
+# Funky Sorting
+
+* Key Concepts
+    1. In-Place Sorting:
+        • Sort without using extra space (space complexity of O(1))
+        • Common techniques: swapping and shifting elements in the array
+    2. Optimal Sorting:
+        • Minimise total number of operations (optimise time complexity)
+        • Techniques to achieve O(n) time complexity in specific problems
+
+* Problem: Zeroes to the Right
+
+    Objective: Move all zeroes in the array to the end while maintaining the relative order of non-zero elements
+
+    Constraints:
+        • In-place algorithm
+        • Minimise operations
+
+    Plan:
+    1. Use a pointer `firstZero` to track the left-most zero
+    2. Iterate through the array:
+        • If a zero is encountered, update `firstZero`
+        • When a non-zero is encountered, swap it with the element at `firstZero` and increment `firstZero`
+
+    Code:
+    ```js
+    function moveZeroes(nums) {
+        let firstZero = -1; // pointer to the first zero
+
+        for (let i = 0; i < nums.length; i++) {
+            if (firstZero === -1) {
+                if (nums[i] === 0) firstZero = i;
+            } else if (nums[i] !== 0) {
+                [nums[i], nums[firstZero]] = [nums[firstZero], nums[i]];
+                firstZero++;
+            }
+        }
+        return nums;
+    }
+    ```
+    Explanation:
+        • Efficiently swaps elements to move all zeroes to the end with minimal operations
+
+
+* Problem: Even/Odd Sort
+
+    Objective: Sort the array so that all even numbers are on the left and all odd numbers are on the right, both in ascending order
+
+    Constraints:
+        • No specific time or space requirements
+
+    Plan:
+        1. Create two empty arrays: `evens` and `odds`
+        2. Iterate through the array:
+            • Find the smallest even and odd values
+            • Append these values to `evens` and `odds` respectively
+            • Remove the smallest values from the original array
+        3. Join `evens` and `odds` arrays
+
+    ```js
+    function evenOddSort(nums) {
+        const evens = [];
+        const odds = [];
+
+        while (nums.length > 0) {
+            let smallestEven = Infinity;
+            let smallestOdd = Infinity;
+
+            for (let i = 0; i < nums.length; i++) {
+                if (nums[i] % 2 === 0 && nums[i] < smallestEven) {
+                    smallestEven = nums[i];
+                } else if (nums[i] % 2 === 1 && nums[i] < smallestOdd) {
+                    smallestOdd = nums[i];
+                }
+            }
+
+            if (smallestEven !== Infinity) {
+                evens.push(smallestEven);
+                nums.splice(nums.indexOf(smallestEven), 1);
+            }
+
+            if (smallestOdd !== Infinity) {
+                odds.push(smallestOdd);
+                nums.splice(nums.indexOf(smallestOdd), 1);
+            }
+        }
+
+        return [...evens, ...odds];
+    }
+    ```
+    Explanation:
+        • Seperates and sorts evens and odds by iteratively finding and removing the smallest values
+
+* What You Learned
+    • In-Place Sorting: Techniques for optimising space complexity
+    • Efficient Sorting: Strategies for minimising operations to achieve optimal time complexity
+    • Custom Sorting: Applying sorting techniques to solve specific problems, such as seperating zeroes or sorting evens and odds
