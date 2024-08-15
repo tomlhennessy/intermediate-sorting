@@ -280,3 +280,92 @@ Understanding quicksort's mechanism and implementing it both out-of-place and in
     • In-Place Sorting: Techniques for optimising space complexity
     • Efficient Sorting: Strategies for minimising operations to achieve optimal time complexity
     • Custom Sorting: Applying sorting techniques to solve specific problems, such as seperating zeroes or sorting evens and odds
+
+
+# JavaScript's Built-in Sort
+
+JavaScript's Sort Function
+    * Basic Usage:
+        • `Array.prototype.sort()` sorts an array in-place and returns the sorted array
+
+        Example:
+
+        ```js
+        let nums = [3, 2, 0, 4, 1];
+        nums.sort();
+        console.log(nums); // output: [0, 1, 2, 3, 4]
+        ```
+
+    * Sorting Mechanism:
+        • JavaScript's sort treats array elements as strings by default
+        • Example with numbers:
+
+        ```js
+        let nums = [2, 4, 8, 16, 32, 64, 128];
+        nums.sort();
+        console.log(nums); // Output: [128, 16, 2, 256, 32, 4, 512, 64, 8]
+        ```
+
+        • This occurs because JavaScript sorts based on the UTF-16 code unit values of strings
+
+
+Custom Sorting with a Comparator
+
+    * Comparator Function:
+        • To sort numerically, define a custom comparator function
+        • Example:
+
+        ```js
+        function compareNumbers(a, b) {
+            return a - b;
+        }
+        nums.sort(compareNumbers);
+        // output: [2, 4, 8, 16, 32, 64, 128]
+        ```
+
+    * Comparator Logic:
+        • The comparator should return:
+            - Negative value if `a < b` (a comes before b)
+            - Zero if `a === b`
+            - Positive value if `a > b` (b comes before a)
+
+
+* Advanced Sorting Techniques
+
+    • Odd-Even Sort:
+        - Task: sort numbers such that even numbers are on the left and odd numbers on the right
+        - Solution:
+
+        ```js
+        function oddEvenCompare(a, b) {
+            if (a % 2 === 0 && b % 2 !== 0) return -1;
+            if (a % 2 !== 0 && b % 2 === 0) return 1;
+            return a - b;
+        }
+        nums.sort(oddEvenCompare);
+        // output: [2, 4, 6, 8, 1, 3, 5, 7, 9]
+        ```
+
+    • Move Zeroes to the Right:
+        - Task: sort an array such that all zeroes are moved to the right
+        - Solution:
+
+        ```js
+        function moveZeroesCompare(a, b) {
+            if (a === 0) return 1;
+            if (b === 0) return -1;
+            return a - b;
+        }
+        nums.sort(moveZeroesCompare);
+        // output: [1, 4, 15, 0, 0]
+        ```
+
+* Performance Considerations
+    • Time Complexity: the built-in sort function typically runs in O(n log n) time
+    • Space Complexity: sorts are typically in-place, with O(1) space complexity
+    • Algorithm: The exact sorting algorithm varies by JavaScript engine (e.g. V8 in Chrome). It often uses `merge sort` or `quicksort`, sometimes combined with insertion sort for small arrays.
+
+* Summary
+    • JavaScript's `sort()` function is powerful but sorts strings by default
+    • Use custom comparator functions for numerical or specialised sorting
+    • Custom comparators can implement complex sorting logic efficiently
